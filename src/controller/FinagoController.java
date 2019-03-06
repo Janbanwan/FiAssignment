@@ -36,17 +36,20 @@ public class FinagoController {
              * Finally write the CSV file by using the toStringCsv method of the FinCoice class
              */
             String filePath = "exampleInvoice.xml";
+            String outputFileName = "Finvoice.csv";
       
             NodeList nl = loadXml(filePath);
             
             FinVoice finVoice = new FinVoice();
             finVoice = extractInvoice(nl, finVoice);
             
-            try(PrintWriter writer = new PrintWriter(new File("invoice.csv"))){
+            try(PrintWriter writer = new PrintWriter(new File(outputFileName))){
                 writer.write(finVoice.toStringCsv());
             }catch(FileNotFoundException e){
                 System.out.println(e);
             }
+            
+            System.out.println("Program ran succesfully, you can find your new csv file at the root directory of this project under the name " +outputFileName);
     }
     
     private static NodeList loadXml(String filePath){
@@ -66,7 +69,8 @@ public class FinagoController {
             mainElement = doc.getDocumentElement();
             
         } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(FinagoController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("exampleInvoice.csv is not present in the directory, please check the filename and try again");
+            System.exit(0);
         }
         return mainElement.getChildNodes();
     }
