@@ -30,9 +30,13 @@ import model.Article;
 public class FinagoController {
     
     public static void run(){
-        
+            /**
+             * Load file to the application and extract child nodes.
+             * Loop through child nodes extracting details and adding them to the main FinVoice object.
+             * Finally write the CSV file by using the toStringCsv method of the FinCoice class
+             */
             String filePath = "exampleInvoice.xml";
-            
+      
             NodeList nl = loadXml(filePath);
             
             FinVoice finVoice = new FinVoice();
@@ -46,7 +50,10 @@ public class FinagoController {
     }
     
     private static NodeList loadXml(String filePath){
-        
+        /**
+         * Loading the file to the application and parsing it to the document object.
+         * Returning only the child nodes of the main element as a NodeList as returning the whole element is unnecessary.
+         */
         Element mainElement = null;
         
         try {
@@ -65,7 +72,12 @@ public class FinagoController {
     }
     
     private static FinVoice extractInvoice(NodeList nl, FinVoice finVoice){
-
+        
+         /**
+          * Loop through every node in the NodeList and assign the Element value of the NodeList Item.
+          * The loop parses and creates the necessary objects that finVoice object composes of
+          */ 
+         
         Element element;
 
         for(int i = 0; i < nl.getLength(); i++){
@@ -79,6 +91,12 @@ public class FinagoController {
     }
     
     private static FinVoice nodeSwitch(FinVoice finVoice, Element element){
+        
+        /**
+         * I used a switch statement here as all the possible cases were known in advance.
+         * In each of the extract methods the element gets parsed and necessary data gets extracted to create 
+         * the necessary object. Object is then added to the finVoice object and finVoice is returned.
+         */
         
         switch(element.getNodeName()){
             case "BuyerPartyDetails":
@@ -103,6 +121,16 @@ public class FinagoController {
         }
         return finVoice;
     }
+    
+    /**
+     * In each of these methods the elements get extracted using their tag names.
+     * I opted for this method because FinVoice.xml is a standardized format with consistent TagNames,
+     * and an approach like this gets the job done.
+     * 
+     * Of course extracting every variable manually is time consuming but this way we get Object out of all the elements that 
+     * can be manipulated during the execution of the program if necessary.
+     * 
+     */
     
     private static BuyerParty extractBuyerParty( Element element){
         

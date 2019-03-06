@@ -67,13 +67,24 @@ public class FinVoice {
     
     public String toStringCsv(){
         
+        /**
+         * This toString statement specifies the format required in the CSV file and is used to print the CSV file out.
+         * The commas are somewhat ugly and non-descriptive but I found just inserting the commas a better solution than creating 
+         * variables for all the fields that are not present in the XML file and initializing them as empty.
+         */
+        
         String paymentOverDueFinePercent = switchCommaType(invoiceDetails.getPaymentTermsDetails().getPaymentOverDueFinePercent());
         
-        String toString = invoiceDetails.getInvoiceTypeCode() + ";" + invoiceDetails.getCurrencyIdentifier() + ";" + ";" + ";" 
-                + buyerParty.getBuyerPartyIdentifier() + ";" + ";" + deliveryParty.getPartyOrganisationName() +";" + ";"
-                + ";" + ";" + ";" + paymentOverDueFinePercent + ";" 
-                + invoiceDetails.getInvoiceDate() + ";" + ";" 
-                + ";" + ";" + deliveryParty.toStringCsv() + ";" + deliveryParty.toStringCsv() + ";" + invoiceDetails.getInvoiceFreeText();
+        String toString = 
+                invoiceDetails.getInvoiceTypeCode() + ";" + 
+                invoiceDetails.getCurrencyIdentifier() + ";" + ";" + ";" + 
+                buyerParty.getBuyerPartyIdentifier() + ";" + ";" + 
+                deliveryParty.getPartyOrganisationName() +";" + ";" + ";" + ";" + ";" + 
+                paymentOverDueFinePercent + ";" + 
+                invoiceDetails.getInvoiceDate() + ";" + ";" + ";" + ";" + 
+                deliveryParty.toStringCsv() + ";" + 
+                deliveryParty.toStringCsv() + ";" + 
+                invoiceDetails.getInvoiceFreeText();
      
         for(Article a:invoiceArticles){
             toString += a.toStringCsv();
